@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.dao.mapper.ShopBillsMapper">
+	<resultMap type="com.moon.entity.impl.ShopBill" id="bill">
+		<result column="bill_pk_id" property="id"/>
+		<result column="bill_fk_shop_menu" property="shopMenu"/>
+		<result column="bill_pay_num" property="payNum"/>
+		<result column="bill_from" property="from"/>
+		<result column="bill_to" property="to"/>
+		<result column="bill_create_at" property="createAt"/>
+		<result column="bill_status" property="status"/>
+	</resultMap>
+</mapper>

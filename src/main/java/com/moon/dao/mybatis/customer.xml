@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.dao.mapper.CustomerMapper">
+	<resultMap type="com.moon.entity.impl.Customer" id="customer">
+		<result column="customer_pk_id" property="id"/>
+		<result column="customer_pass" property="pass"/>
+		<result column="customer_establish_time" property="establish"/>
+		<result column="customer_avatar" property="avatar"/>
+		<result column="customer_sex" property="sex"/>
+		<result column="customer_nickname" property="nickname"/>
+		<result column="customer_live_address" property="liveAddress"/>
+		<result column="customer_logintime" property="loginTime"/>
+		<result column="customer_loginip" property="loginIp"/>
+		<result column="customer_signnature" property="signnature"/>
+		<result column="customer_email" property="email"/>
+		<result column="customer_phone" property="phone"/>
+	</resultMap>
+</mapper>
