@@ -1,8 +1,10 @@
 package com.moon.entity.impl;
 
+import com.google.gson.GsonBuilder;
 import com.moon.entity.MoonEntity;
+import com.moon.entity.RetrievedCondition;
 
-public class ShopMenu implements MoonEntity{
+public class ShopMenu implements MoonEntity,RetrievedCondition{
 	/**
 	 * 
 	 */
@@ -35,6 +37,10 @@ public class ShopMenu implements MoonEntity{
 	}
 	public void setShopId(long shopId) {
 		this.shopId = shopId;
+	}
+	@Override
+	public String toString() {
+		return new GsonBuilder().setPrettyPrinting().create().toJson(this);
 	}
 	
 }

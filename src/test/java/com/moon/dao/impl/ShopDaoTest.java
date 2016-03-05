@@ -5,8 +5,8 @@ import static junit.framework.TestCase.assertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.moon.dao.DaoTest;
@@ -17,47 +17,51 @@ import com.moon.entity.impl.Shop;
  */
 
 public class ShopDaoTest extends DaoTest {
-    @Autowired
-    private ShopDao dao;
+	@Autowired
+	private ShopDao shopDao;
 
-    public void testInsert() {
-        List<Shop> list = new ArrayList<Shop>();
-        Shop shop = new Shop();
-        shop.setBoss("kfc");
-        shop.setAddress("guangzhou");
-        shop.setEstablishTime(new Date());
-        shop.setIntro("restrautant");
-        shop.setName("kfc" + UUID.randomUUID().toString());
-        shop.setPassword("hello");
-        shop.setShopStatus(1);
-        shop.setTel("13");
-        list.add(shop);
-        dao.insert(list);
-    }
+	@Test
+	public void testInsert() {
+		List<Shop> list = new ArrayList<Shop>();
+		Shop shop = new Shop();
+		shop.setBoss("kfc");
+		shop.setAddress("guangzhou");
+		shop.setEstablishTime(new Date());
+		shop.setIntro("restrautant");
+		shop.setName("jay chou");
+		shop.setPassword("hello");
+		shop.setShopStatus(1);
+		shop.setTel("13");
+		list.add(shop);
+		shopDao.insert(list);
+	}
 
-    public void testUpdate() {
-        Shop shop = new Shop();
-        shop.setName("kfc");
-//        shop=(Shop)dao.retrieved(shop);
-        shop.setShopStatus(1);
-        dao.update(shop);
-    }
+	@Test
+	public void testUpdate() {
+		Shop shop = new Shop();
+		shop.setName("kfc");
+		// shop=(Shop)dao.retrieved(shop);
+		shop.setShopStatus(1);
+		shopDao.update(shop);
+	}
 
-    public void testDelete() {
-        Shop shop = new Shop();
-        shop.setName("kfc");
-        dao.delete(shop);
-    }
+	@Test
+	public void testDelete() {
+		Shop shop = new Shop();
+		shop.setName("kfc");
+		shopDao.delete(shop);
+	}
 
-    public void testRetrieved() {
-        Shop shop = new Shop();
-        shop.setName("kfc");
-        shop.setPassword("hello");
-        Shop temp=(Shop)dao.retrieved(shop);
-        assertTrue(temp.equals(shop));
+	@Test
+	public void testRetrieved() {
+		Shop shop = new Shop();
+		shop.setName("kfc");
+		shop.setPassword("hello");
+		Shop temp = (Shop) shopDao.retrieved(shop);
+		assertTrue(temp.equals(shop));
 
-        System.out.println(dao.retrieved(shop).toString());
+		System.out.println(shopDao.retrieved(shop).toString());
 
-    }
+	}
 
 }

@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.moon.dao.Dao;
@@ -15,7 +14,6 @@ import com.moon.entity.MoonEntity;
 import com.moon.entity.impl.Shop;
 
 @Repository("shopDao")
-@Scope("prototype")
 public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
     @Autowired
     private ShopMapper mapper;

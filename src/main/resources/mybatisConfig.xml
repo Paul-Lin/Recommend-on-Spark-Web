@@ -10,6 +10,7 @@
 		<mapper resource="com/moon/dao/mybatis/shop.xml"/>
         <mapper resource="com/moon/dao/mybatis/bill.xml"/>
         <mapper resource="com/moon/dao/mybatis/customer.xml"/>
+        <mapper resource="com/moon/dao/mybatis/shopmenu.xml"/>
 		<!-- <mapper resource="com/helper/dao/mapper/mybatis/User.xml"/> -->
 	</mappers>
 </configuration>
