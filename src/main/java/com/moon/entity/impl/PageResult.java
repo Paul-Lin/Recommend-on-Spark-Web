@@ -11,16 +11,16 @@ public class PageResult extends Entity {
 	 * 
 	 */
 	private static final long serialVersionUID = 7375062775174903184L;
-	private Integer pageSize;
+	private int pageSize;
     private Object object;
     private boolean isSuccess;
-    private Integer code;
+    private int code;
     private String desc;
-    public Integer getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
@@ -40,11 +40,11 @@ public class PageResult extends Entity {
         this.isSuccess = isSuccess;
     }
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

@@ -18,7 +18,8 @@ import com.moon.entity.impl.Customer;
 public class CustomerDao implements Dao<Customer>, Retrieved<Customer> {
 	@Autowired
 	private CustomerMapper mapper;
-	private AtomicInteger count=new AtomicInteger(0);
+	private AtomicInteger count = new AtomicInteger(0);
+
 	@Deprecated
 	@Override
 	public int delete(List<Customer> list) {
@@ -33,9 +34,9 @@ public class CustomerDao implements Dao<Customer>, Retrieved<Customer> {
 
 	@Override
 	public int insert(List<Customer> list) {
-		count=new AtomicInteger(0);
-		list.stream().filter(new NotNullCustomer()).forEach(x->{
-			if(this.insert(x)==true)
+		count = new AtomicInteger(0);
+		list.stream().filter(new NotNullCustomer()).forEach(x -> {
+			if (this.insert(x) == true)
 				count.getAndIncrement();
 		});
 		return count.get();
@@ -43,12 +44,12 @@ public class CustomerDao implements Dao<Customer>, Retrieved<Customer> {
 
 	@Override
 	public boolean insert(Customer t) {
-		try{
-			mapper.insert(t.getPass(), t.getEstablish(), t.getAvatar(), t.getSex(), t.getNickname(),
+		try {
+
+			return mapper.insert(t.getPass(), t.getEstablish(), t.getAvatar(), t.getSex(), t.getNickname(),
 					t.getLiveAddress(), t.getLoginTime(), t.getLoginIp(), t.getSignnature(), t.getEmail(),
-					t.getPhone());
-			return true;
-		}catch(Exception e){
+					t.getPhone()) == 1 ? true : false;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
@@ -56,9 +57,9 @@ public class CustomerDao implements Dao<Customer>, Retrieved<Customer> {
 
 	@Override
 	public int update(List<Customer> list) {
-		count=new AtomicInteger(0);
-		list.stream().filter(new NotNullCustomer()).forEach(x->{
-			if(this.update(x)==true)
+		count = new AtomicInteger(0);
+		list.stream().filter(new NotNullCustomer()).forEach(x -> {
+			if (this.update(x) == true)
 				count.getAndIncrement();
 		});
 		return count.get();
@@ -66,26 +67,25 @@ public class CustomerDao implements Dao<Customer>, Retrieved<Customer> {
 
 	@Override
 	public boolean update(Customer t) {
-		try{
-			mapper.update(t.getId(), t.getPass(), t.getEstablish(), t.getAvatar(), t.getSex(), t.getNickname(),
+		try {
+			return mapper.update(t.getId(), t.getPass(), t.getEstablish(), t.getAvatar(), t.getSex(), t.getNickname(),
 					t.getLiveAddress(), t.getLoginTime(), t.getLoginIp(), t.getSignnature(), t.getEmail(),
-					t.getPhone());
-			return true;
-		}catch(Exception e){
+					t.getPhone()) == 1 ? true : false;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;	
+		return false;
 	}
 
 	@Override
 	public List<? extends MoonEntity> retrieved(Customer t, Long offset, Integer pageSize) {
-		List<Customer> customers=mapper.retrieved(t.getNickname(), offset, pageSize);
+		List<Customer> customers = mapper.retrieved(t.getNickname(), offset, pageSize);
 		return customers;
 	}
 
 	@Override
 	public MoonEntity retrieved(Customer t) {
-		return this.retrieved(t,0L,1).get(0);
+		return this.retrieved(t, 0L, 1).get(0);
 	}
 
 	static class NotNullCustomer implements Predicate<Customer> {

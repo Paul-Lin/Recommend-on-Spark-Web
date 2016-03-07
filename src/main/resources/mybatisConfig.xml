@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE configuration  
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
-  "http://mybatis.org/dtd/mybatis-3-config.dtd">  
-<configuration> 
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
 	<settings>
-		<setting name="lazyLoadingEnabled" value="false"/>
-	</settings> 
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
 	<mappers>
-		<mapper resource="com/moon/dao/mybatis/shop.xml"/>
-        <mapper resource="com/moon/dao/mybatis/bill.xml"/>
-        <mapper resource="com/moon/dao/mybatis/customer.xml"/>
-        <mapper resource="com/moon/dao/mybatis/shopmenu.xml"/>
+		<mapper resource="com/moon/dao/mybatis/shop.xml" />
+		<mapper resource="com/moon/dao/mybatis/bill.xml" />
+		<mapper resource="com/moon/dao/mybatis/customer.xml" />
+		<mapper resource="com/moon/dao/mybatis/shopmenu.xml" />
+		<mapper resource="com/moon/dao/mybatis/shopmenuImage.xml" />
+
 		<!-- <mapper resource="com/helper/dao/mapper/mybatis/User.xml"/> -->
 	</mappers>
 </configuration>

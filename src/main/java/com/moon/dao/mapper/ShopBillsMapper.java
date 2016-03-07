@@ -21,11 +21,11 @@ public interface ShopBillsMapper {
     public List<ShopBill> query(@Param("id")long shopId,@Param("offset")long offset,@Param("pageSize")int pageSize);
 
     @Update("update bill set status=#{status},bill_fk_shop_menu=#{menu},bill_pay_num=#{num} where bill_pk_id=#{id}")
-    public void update(@Param("status")int status,@Param("menu")long menu,@Param("num")double num,@Param("id")long id);
+    public int update(@Param("status")int status,@Param("menu")long menu,@Param("num")double num,@Param("id")long id);
 
     @Insert("insert into bill (bill_fk_shop_menu,bill_pay_num,bill_from,bill_to,bill_create_at,bill_status) values (#{menu},{#num},#{from},#{to},#{create_at},#{status})")
-    public void insert(@Param("menu")long menu,@Param("num")double num,@Param("from")long from,@Param("to")long to,@Param("create_at")Date createAt,@Param("status")int status);
+    public int insert(@Param("menu")long menu,@Param("num")double num,@Param("from")long from,@Param("to")long to,@Param("create_at")Date createAt,@Param("status")int status);
 
     @Delete("delete from bill where bill_pk_id=#{id}")
-    public void delete(@Param("id")long id);
+    public int delete(@Param("id")long id);
 }

@@ -53,8 +53,8 @@ public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
         if(Objects.isNull(t))
             throw new NullPointerException("shop to be delete cannot be null");
         if (t != null && StringUtils.isNotBlank(t.getName())) {
-            mapper.delete(t.getName());
-            return true;
+            
+            return mapper.delete(t.getName())==1?true:false;
         }
         return false;
     }
@@ -77,8 +77,8 @@ public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
         if(Objects.isNull(t))
             throw new NullPointerException("shop to be insert cannot be null");
         if (t != null) {
-            mapper.insert( t.getName(), t.getAddress(), t.getTel(), t.getBoss(), t.getIntro(), t.getEstablishTime(), t.getPassword(),t.getShopStatus());
-            return true;
+            return mapper.insert( t.getName(), t.getAddress(), t.getTel(), t.getBoss(), t.getIntro(), t.getEstablishTime(), t.getPassword(),t.getShopStatus())==1?true:false;
+
         }
         return false;
     }
@@ -102,8 +102,7 @@ public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
         if(Objects.isNull(t))
             throw new NullPointerException("shop to be insert cannot be null");
         if (t != null) {
-            mapper.update(t.getId(), t.getName(), t.getAddress(), t.getTel(), t.getBoss(), t.getIntro(), t.getEstablishTime(), t.getPassword(), t.getName(),t.getShopStatus());
-            return true;
+            return mapper.update(t.getId(), t.getName(), t.getAddress(), t.getTel(), t.getBoss(), t.getIntro(), t.getEstablishTime(), t.getPassword(), t.getName(),t.getShopStatus())==1?true:false;
         }
         return false;
     }

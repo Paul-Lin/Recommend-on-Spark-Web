@@ -14,10 +14,10 @@ import com.moon.entity.impl.Shop;
 
 public interface ShopMapper {
     @Delete("DELETE FROM shop WHERE shop_name=#{name}")
-    public void delete(@Param("name") String name);
+    public int delete(@Param("name") String name);
 
     @Insert("INSERT INTO shop(shop_name,shop_address,shop_tel,shop_boss,shop_intro,shop_establish_time,shop_password,shop_status) VALUES (#{name},#{address},#{tel},#{boss},#{intro},#{establishTime},#{password},#{shopStatus})")
-    public void insert( @Param("name") String name,
+    public int insert( @Param("name") String name,
                        @Param("address") String address, @Param("tel") String tel,
                        @Param("boss") String boss, @Param("intro") String intro,
                        @Param("establishTime") Date establishTime,
@@ -33,7 +33,7 @@ public interface ShopMapper {
     public Shop retrievedByName(@Param("name") String name);
 
     @Update("UPDATE shop SET shop_name=#{name},shop_address=#{address},shop_tel=#{tel},shop_boss=#{boss},shop_intro=#{intro},shop_establish_time=#{establishTime},shop_password=#{password}, shop_status=#{shopStatus} WHERE shop_name=#{shop_name}")
-    public void update(@Param("id") long id, @Param("name") String name,
+    public int update(@Param("id") long id, @Param("name") String name,
                        @Param("address") String address, @Param("tel") String tel,
                        @Param("boss") String boss, @Param("intro") String intro,
                        @Param("establishTime") Date date,

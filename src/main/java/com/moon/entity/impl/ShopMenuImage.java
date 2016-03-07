@@ -1,11 +1,10 @@
 package com.moon.entity.impl;
 
+import com.google.gson.GsonBuilder;
 import com.moon.entity.MoonEntity;
+import com.moon.entity.RetrievedCondition;
 
-public class ShopMenuImage implements MoonEntity{
-	/**
-	 * 
-	 */
+public class ShopMenuImage implements MoonEntity,RetrievedCondition{
 	private static final long serialVersionUID = -3761906074917002251L;
 	private long id;
 	private String path;
@@ -28,6 +27,16 @@ public class ShopMenuImage implements MoonEntity{
 	public void setShopMenuId(long shopMenuId) {
 		this.shopMenuId = shopMenuId;
 	}
-
+	public static class BuildShopMenuImage{
+		public static ShopMenuImage build(long ShopMenuId){
+			ShopMenuImage image=new ShopMenuImage();
+			image.setId(ShopMenuId);
+			return image;
+		}
+	}
+	@Override
+	public String toString() {
+		return new GsonBuilder().setPrettyPrinting().create().toJson(this);
+	}
 	
 }
