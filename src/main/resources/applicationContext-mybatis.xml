@@ -63,6 +63,11 @@
 		<property name="mapperInterface" value="com.moon.dao.mapper.ShopMenuImageMapper"/>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
+	
+	<bean id="recomendMenuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.moon.dao.mapper.RecommendMenuMapper"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
 	<!-- <bean id="statementMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
 		<property name="mapperInterface" value="com.helper.dao.mapper.StatementMapper" 
 		/> <property name="sqlSessionFactory" ref="sqlSessionFactory" /> </bean> -->

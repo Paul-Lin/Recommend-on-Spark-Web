@@ -78,14 +78,14 @@ public class CustomerDao implements Dao<Customer>, Retrieved<Customer> {
 	}
 
 	@Override
-	public List<? extends MoonEntity> retrieved(Customer t, Long offset, Integer pageSize) {
+	public List<? extends MoonEntity> retrievedByShopMenuId(Customer t, Long offset, Integer pageSize) {
 		List<Customer> customers = mapper.retrieved(t.getNickname(), offset, pageSize);
 		return customers;
 	}
 
 	@Override
 	public MoonEntity retrieved(Customer t) {
-		return this.retrieved(t, 0L, 1).get(0);
+		return this.retrievedByShopMenuId(t, 0L, 1).get(0);
 	}
 
 	static class NotNullCustomer implements Predicate<Customer> {

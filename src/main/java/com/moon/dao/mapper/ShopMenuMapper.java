@@ -23,5 +23,9 @@ public interface ShopMenuMapper {
 
 	@Select("select * from shop_menu where shop_menu_fk_shop_id=#{id} limit #{offset},#{pageSize}")
 	@ResultMap("shopMenu")
-	public List<ShopMenu> query(@Param("id") long shopId,@Param("offset")long offset,@Param("pageSize")int pageSize);
+	public List<ShopMenu> queryByShopId(@Param("id") long shopId,@Param("offset")long offset,@Param("pageSize")int pageSize);
+	
+	@Select("select * from shop_menu where shop_menu_pk_id=#{id}")
+	@ResultMap("shopMenu")
+	public ShopMenu query(@Param("id")long id);
 }

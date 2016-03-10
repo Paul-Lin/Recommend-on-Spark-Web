@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.esotericsoftware.minlog.Log;
 import com.moon.action.Action;
 import com.moon.common.AppConstant;
 import com.moon.entity.impl.Customer;
@@ -29,10 +30,35 @@ public class CustomerAction extends Action {
 	private CustomerService customerService;
 
 	@RequestMapping("index")
-	public ModelAndView index() {
-		return new ModelAndView("/index");
+	public ModelAndView index(HttpServletRequest request) {
+		Customer customer = (Customer) request.getSession().getAttribute(AppConstant.CUSTOMER);
+		ModelAndView view = new ModelAndView("/customer/index");
+		view.addObject("customer", customer);
+		return view;
 	}
-
+	@RequestMapping("reset-password")
+	public ModelAndView resetPass(HttpServletRequest request) {
+		Customer customer = (Customer) request.getSession().getAttribute(AppConstant.CUSTOMER);
+		ModelAndView view = new ModelAndView("/customer/reset-password");
+		view.addObject("customer", customer);
+		return view;
+	}
+	@RequestMapping("update-password")
+	@ResponseBody
+	public PageResult updatePassword(@RequestParam("pass")String pass,HttpServletRequest request){
+		PageResult result=new PageResult();
+		try{
+			Customer customer = (Customer) request.getSession().getAttribute(AppConstant.CUSTOMER);
+			customer.setPass(StringUtils.isNotBlank(pass)?pass:customer.getPass());
+			result.setIsSuccess(customerService.update(customer));
+			return result;
+		}catch(Exception e){
+			e.printStackTrace();
+			Log.error("exception detail: {}",e.getMessage());
+			result.setIsSuccess(false);
+			return result;
+		}
+	}
 	@RequestMapping("register")
 	@ResponseBody
 	public PageResult register(@RequestParam("email") String email, @RequestParam("nickname") String nickname,
@@ -66,7 +92,7 @@ public class CustomerAction extends Action {
 		customer.setEstablish(new Date());
 		customer.setLoginIp(request.getRemoteAddr());
 		result.setIsSuccess(customerService.insert(customer));
-		if(result.isSuccess()){
+		if (result.isSuccess()) {
 			request.getSession().setAttribute(AppConstant.CUSTOMER, customer);
 		}
 		result.setCode(result.isSuccess() ? UserStatus.valueOf(UserStatus.USER_REGISTER_SUCCESS)
@@ -74,46 +100,50 @@ public class CustomerAction extends Action {
 		return result;
 	}
 
-	@RequestMapping("login")
-	@ResponseBody
-	public PageResult login(@RequestParam("nickname") String nickname, @RequestParam("pass") String pass,HttpServletRequest request) {
-		PageResult result=new  PageResult();
-		if(StringUtils.isBlank(nickname)){
-			result.setCode(UserStatus.valueOf(UserStatus.USER_LOGIN_ERROR_WITHOUT_NICKNAME));
-			result.setIsSuccess(false);
-			return result;
-		}
-		if(StringUtils.isBlank(pass)){
-			result.setCode(UserStatus.valueOf(UserStatus.USER_LOGIN_ERROR_WITHOUT_PASS));
-			result.setIsSuccess(false);
-			return result;
-		}
-		Optional<Customer> customer=customerService.retrieved(nickname,pass);
-		if(customer.isPresent()){
-			request.getSession().setAttribute(AppConstant.CUSTOMER, customer.get());
-			result.setIsSuccess(true);
-		}
-		return result;
-	}
-
 	@RequestMapping("logout")
 	@ResponseBody
-	public PageResult logout(@RequestParam("nickname")String nickname,@RequestParam("pass")String pass,HttpServletRequest request) {
-		PageResult result=new PageResult();
-		if(StringUtils.isBlank(nickname)){
+	public PageResult logout(@RequestParam("nickname") String nickname, @RequestParam("pass") String pass,
+			HttpServletRequest request) {
+		PageResult result = new PageResult();
+		if (StringUtils.isBlank(nickname)) {
 			result.setCode(UserStatus.valueOf(UserStatus.USER_LOGIN_ERROR_WITHOUT_NICKNAME));
 			result.setIsSuccess(false);
 			return result;
 		}
-		if(StringUtils.isBlank(pass)){
+		if (StringUtils.isBlank(pass)) {
 			result.setCode(UserStatus.valueOf(UserStatus.USER_LOGIN_ERROR_WITHOUT_PASS));
 		}
-		Optional<Customer> customer=customerService.retrieved(nickname, pass);
-		if(customer.isPresent()){
+		Optional<Customer> customer = customerService.retrieved(nickname, pass);
+		if (customer.isPresent()) {
 			request.getSession().removeAttribute(AppConstant.CUSTOMER);
 			result.setIsSuccess(true);
 		}
 		return result;
 	}
 
+	@RequestMapping("update")
+	@ResponseBody
+	public PageResult update(@RequestParam("nickname") String nickname, @RequestParam("email") String email,
+			@RequestParam("signnature") String signnature, @RequestParam("liveAddress") String liveAddress,
+			@RequestParam("sex") short sex, HttpServletRequest request) {
+		PageResult result = new PageResult();
+		try {
+			Customer customer = (Customer) request.getSession().getAttribute(AppConstant.CUSTOMER);
+			customer.setNickname(StringUtils.isNotBlank(nickname) ? nickname : customer.getNickname());
+			customer.setEmail(StringUtils.isNotBlank(email) ? email : customer.getEmail());
+			customer.setLiveAddress(StringUtils.isNotBlank(liveAddress) ? liveAddress : customer.getLiveAddress());
+			customer.setSignnature(StringUtils.isNotBlank(signnature) ? signnature : customer.getSignnature());
+			customer.setSex(sex);
+			// customer.set
+			result.setIsSuccess(customerService.update(customer));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.error("exception detail: {}", e.getMessage());
+			result.setIsSuccess(false);
+			return result;
+		}
+	}
+	
+	
 }

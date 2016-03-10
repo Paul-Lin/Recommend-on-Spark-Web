@@ -20,7 +20,7 @@ public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
     private int num = 0;
 
     @Override
-    public List<? extends MoonEntity> retrieved(Shop t, Long offset, Integer pageSize) {
+    public List<? extends MoonEntity> retrievedByShopMenuId(Shop t, Long offset, Integer pageSize) {
         return mapper.retrieved(t.getName(), offset, pageSize);
     }
 

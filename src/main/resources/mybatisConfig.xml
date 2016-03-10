@@ -12,6 +12,7 @@
 		<mapper resource="com/moon/dao/mybatis/customer.xml" />
 		<mapper resource="com/moon/dao/mybatis/shopmenu.xml" />
 		<mapper resource="com/moon/dao/mybatis/shopmenuImage.xml" />
+		<mapper resource="com/moon/dao/mybatis/recommendMenu.xml" />
 
 		<!-- <mapper resource="com/helper/dao/mapper/mybatis/User.xml"/> -->
 	</mappers>

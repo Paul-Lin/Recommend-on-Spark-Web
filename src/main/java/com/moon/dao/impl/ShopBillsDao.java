@@ -72,7 +72,7 @@ public class ShopBillsDao implements Dao<ShopBill>, Retrieved<ShopBill> {
 	}
 
 	@Override
-	public List<? extends MoonEntity> retrieved(ShopBill shopBill, Long offset, Integer pageSize) {
+	public List<? extends MoonEntity> retrievedByShopMenuId(ShopBill shopBill, Long offset, Integer pageSize) {
 		try {
 			Objects.requireNonNull(shopBill.getTo(), "shopBill should not be null");
 			List<ShopBill> bills = shopBillsMapper.query(shopBill.getTo(), offset, pageSize);
@@ -87,7 +87,7 @@ public class ShopBillsDao implements Dao<ShopBill>, Retrieved<ShopBill> {
 
 	@Override
 	public MoonEntity retrieved(ShopBill shopBill) {
-		return this.retrieved(shopBill, 0L, 1).get(0);
+		return this.retrievedByShopMenuId(shopBill, 0L, 1).get(0);
 	}
 
 	@Override

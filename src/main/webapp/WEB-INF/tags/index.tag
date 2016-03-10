@@ -53,7 +53,7 @@
     .m-recommend{
         min-width:982px;
         background:#333;
-        height:499px
+        min-height:900px;
     }
 </style>
 <body>

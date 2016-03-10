@@ -28,7 +28,7 @@ public class ShopBillsService implements MoonService {
 			ShopBill shopBill = new ShopBill();
 			shopBill.setTo(shopId);
 			@SuppressWarnings("unchecked")
-			List<ShopBill> bills = (List<ShopBill>) shopBillsDao.retrieved(shopBill, pageOffset, pageSize);
+			List<ShopBill> bills = (List<ShopBill>) shopBillsDao.retrievedByShopMenuId(shopBill, pageOffset, pageSize);
 			return bills;
 		} catch (Exception e) {
 			e.printStackTrace();
