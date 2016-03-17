@@ -1,7 +1,5 @@
 package com.moon.dao.impl;
 
-import static junit.framework.TestCase.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,13 +53,18 @@ public class ShopDaoTest extends DaoTest {
 	@Test
 	public void testRetrieved() {
 		Shop shop = new Shop();
-		shop.setName("kfc");
-		shop.setPassword("hello");
+		shop.setName("bb");
+		shop.setPassword("bb");
 		Shop temp = (Shop) shopDao.retrieved(shop);
-		assertTrue(temp.equals(shop));
+		System.out.println(temp.toString());
 
-		System.out.println(shopDao.retrieved(shop).toString());
-
+	}
+	
+	@Test
+	public void testRetrievedByShopId(){
+		Shop shop=new Shop();
+		shop.setId(6L);
+		System.out.println(shopDao.retrievedByShopId(shop));
 	}
 
 }

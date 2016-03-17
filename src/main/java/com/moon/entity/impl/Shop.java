@@ -1,7 +1,6 @@
 package com.moon.entity.impl;
 
 import java.util.Date;
-import java.util.Objects;
 
 import com.moon.entity.Entity;
 
@@ -73,13 +72,4 @@ public class Shop extends Entity{
 	public void setEstablishTime(Date establishTime) {
 		this.establishTime = establishTime;
 	}
-
-    @Override
-    public boolean equals(Object obj) {
-        Shop shop= (Shop) obj;
-        Objects.requireNonNull(shop,"shop should not be null");
-        Objects.requireNonNull(shop.getName(),"shop name should not be null");
-        Objects.requireNonNull(shop.getPassword(),"shop password should not be null");
-        return this.name.equals(shop.getName())&&this.password.equals(shop.getPassword());
-    }
 }

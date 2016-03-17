@@ -7,6 +7,7 @@
 <%
 	String host = "http://" + request.getServerName() + ":" + request.getServerPort()
 			+ request.getContextPath();
+	String context=request.getContextPath();
 %>
 <style>
 .wrap {
@@ -57,7 +58,7 @@
 	<c:if test="${not empty customer}">
 		<div id="portraitDiv" class="portrait">
 			<a href="<%=host + "/user/index.action"%>"><img
-				src="${customer.avatar }" class="head-portrait"></a>
+				src="${customer.avatar }" class="head-portrait img-circle"></a>
 		</div>
 	</c:if>
 	<c:if test="${empty customer}">
@@ -79,51 +80,29 @@
 					</button>
 					<h4 class="modal-title" id="login">登陆/注册</h4>
 				</div>
-				<div class="modal-body">
-					<form>
+				<form action="<%=context %>/common/customer/login.action">
+					<div class="modal-body">
 						<div class="form-group">
-							<input type="text" class="form-control login-input" id="name"
+							<input type="text" class="form-control login-input" name="name"
 								placeholder="用户名字" /> <input type="password"
-								class="form-control login-input" id="pass" placeholder="密码" />
+								class="form-control login-input" name="pass" placeholder="密码" />
 						</div>
 						<div class="checkbox">
 							<label> <input type="checkbox">记住我
 							</label>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<a class="btn btn-default" id="registerBtn"
-						href="<%=host%>/common/index.action">注册</a>
-					<button type="button" class="btn btn-default" id="loginBtn">登陆</button>
-				</div>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-default" id="registerBtn"
+							href="<%=host%>/common/index.action">注册</a>
+						<button type="submit" class="btn btn-default" id="loginBtn">登陆</button>
+					</div>
+				</form>
+
 			</div>
 		</div>
 	</div>
 </div>
 <script>
 	
-
-	$('#loginModal').on('show.bs.modal', function(event) {
-		$('#loginBtn').click(function() {
-			$.ajax({
-				type : "get",
-				url : $('#host').val() + '/common/user/login.action',
-				data : {
-					name : $('#name').val(),
-					pass : $('#pass').val()
-				},
-				dataType : 'json',
-				success : function(data) {
-					if (data.success) {
-						// window.location=$('#host').val();
-						$('#loginModal').modal('hide');
-						$('#loginDiv').hide();
-						$('#portraitDiv').show();
-						$('#customerId').val(data.object.id);
-					}
-				}
-			})
-		})
-	})
 </script>

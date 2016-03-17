@@ -39,4 +39,8 @@ public interface ShopMapper {
                        @Param("establishTime") Date date,
                        @Param("password") String password,
                        @Param("shop_name") String shopName, @Param("shopStatus") Integer shopStatus);
+    @Select("SELECT * FROM shop where shop_pk_id=#{id}")
+    @ResultMap("shop")
+    public Shop retrievedByShopId(@Param("id")long id);
+    
 }

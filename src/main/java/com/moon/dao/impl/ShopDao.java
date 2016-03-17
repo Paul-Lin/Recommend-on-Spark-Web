@@ -2,8 +2,11 @@ package com.moon.dao.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,15 +18,24 @@ import com.moon.entity.impl.Shop;
 
 @Repository("shopDao")
 public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
+	private static final Logger log=LoggerFactory.getLogger(ShopDao.class);
     @Autowired
     private ShopMapper mapper;
     private int num = 0;
 
-    @Override
-    public List<? extends MoonEntity> retrievedByShopMenuId(Shop t, Long offset, Integer pageSize) {
+    public List<? extends MoonEntity> retrievedByShopName(Shop t, Long offset, Integer pageSize) {
         return mapper.retrieved(t.getName(), offset, pageSize);
     }
 
+    public Optional<Shop> retrievedByShopId(Shop t){
+    	try{
+        	return Optional.of(mapper.retrievedByShopId(t.getId()));
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		log.error(e.getMessage());
+    		throw new RuntimeException("It can not retrieved by shopId in ShopDao");
+    	}
+    }
     @Override
     public MoonEntity retrieved(Shop shop) {
         if(Objects.nonNull(shop)){
@@ -106,5 +118,11 @@ public class ShopDao  implements Retrieved<Shop>,  Dao<Shop>{
         }
         return false;
     }
+
+	@Override
+	public List<? extends MoonEntity> retrievedByShopMenuId(Shop t, Long offset, Integer pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

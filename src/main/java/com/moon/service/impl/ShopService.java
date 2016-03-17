@@ -1,13 +1,15 @@
 package com.moon.service.impl;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.moon.common.AppConstant;
-import com.moon.common.MoonContext;
 import com.moon.dao.impl.ShopDao;
 import com.moon.entity.impl.Shop;
 import com.moon.enums.ShopStatus;
@@ -18,50 +20,53 @@ import com.moon.service.MoonService;
  */
 @Service("shopService")
 @Transactional
-public class ShopService implements MoonService{
+public class ShopService implements MoonService {
 	private static final long serialVersionUID = 1819766954799845950L;
+	private static final Logger log = LoggerFactory.getLogger(ShopService.class);
 	@Autowired
-    private ShopDao shopDao;
-    private Shop shop;
+	private ShopDao shopDao;
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
+	public Optional<Shop> queryByName(String nickname) {
+		Shop shop = new Shop();
+		shop.setName(nickname);
+		return Optional.of((Shop) shopDao.retrieved(shop));
+	}
 
-    public Shop getShop() {
-        return this.shop;
-    }
-    @SuppressWarnings("static-access")
-	public ShopStatus login()
-    {
-        Objects.requireNonNull(this.shop,"shop property in ShopService should not be null");
-        Shop temp= (Shop) shopDao.retrieved(shop);
-        boolean flag=shop.equals(temp);
-        if(flag==true){
-            if(temp.getShopStatus()==null||temp.getShopStatus()==1) {
-                MoonContext.getInstance().putShop(String.valueOf(temp.getId()), temp);
-                this.shop=temp;
-                this.shop.setPassword(AppConstant.PASSWORD);
-                return ShopStatus.ENABLED;
-            }else{
-                return ShopStatus.DISABLED;
-            }
-        }
-        return ShopStatus.NOT_EXIST;
-    }
+	public boolean login(String nickname, String password) {
+		Shop shop = new Shop();
+		if (StringUtils.isNotBlank(nickname))
+			shop.setName(nickname);
+		if (StringUtils.isNotBlank(password))
+			shop.setPassword(password);
+		return Objects.nonNull(shopDao.retrieved(shop)) ? true : false;
 
-    public ShopStatus register() {
-        Objects.requireNonNull(this.shop, "shop property in ShopService should not be null");
-        Shop temp = (Shop) shopDao.retrieved(shop);
-        if(Objects.isNull(temp)){
-            shopDao.insert(this.shop);
-            return ShopStatus.ENABLED;
-        }
-        boolean flag = shop.equals(temp);
-        if (flag == true) {
-            return ShopStatus.EXIST;
-        }else{
-            return ShopStatus.DISABLED;
-        }
-    }
+	}
+
+	public ShopStatus register(Shop shop) {
+
+		Objects.requireNonNull(shop, "shop property in ShopService should not be null");
+		Shop temp = (Shop) shopDao.retrieved(shop);
+		if (Objects.isNull(temp)) {
+			shopDao.insert(shop);
+			return ShopStatus.ENABLED;
+		}
+		boolean flag = shop.equals(temp);
+		if (flag == true) {
+			return ShopStatus.EXIST;
+		} else {
+			return ShopStatus.DISABLED;
+		}
+	}
+
+	public Shop queryByShopId(long shopId) {
+		try {
+			Shop t = new Shop();
+			t.setId(shopId);
+			return shopDao.retrievedByShopId(t).orElseThrow(NullPointerException::new);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("exception detail: {}", e.getMessage());
+			throw new RuntimeException("It can not query by shopid in shop service.");
+		}
+	}
 }
