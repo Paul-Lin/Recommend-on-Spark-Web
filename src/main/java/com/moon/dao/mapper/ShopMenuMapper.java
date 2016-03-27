@@ -21,11 +21,16 @@ public interface ShopMenuMapper {
 	@Insert("insert into shop_menu (shop_menu_fk_shop_id,shop_menu_name,shop_menu_intro) values(#{id},#{name},#{intro})")
 	public int insert(@Param("name") String name, @Param("intro") String intro, @Param("id") long shopId);
 
-	@Select("select * from shop_menu where shop_menu_fk_shop_id=#{id} limit #{offset},#{pageSize}")
+	@Select("select * from shop_menu where shop_menu_fk_shop_id=#{id} order by shop_menu_pk_id desc limit #{offset},#{pageSize} ")
 	@ResultMap("shopMenu")
 	public List<ShopMenu> queryByShopId(@Param("id") long shopId,@Param("offset")long offset,@Param("pageSize")int pageSize);
 	
 	@Select("select * from shop_menu where shop_menu_pk_id=#{id}")
 	@ResultMap("shopMenu")
 	public ShopMenu query(@Param("id")long id);
+	
+	@Select("select * from shop_menu where shop_menu_name like #{name} or shop_menu_intro like #{intro} limit #{offset},#{pageSize}")
+	@ResultMap("shopMenu")
+	public List<ShopMenu> queryNameOrIntro(@Param("name")String name,@Param("intro")String intro,@Param("offset")long offset,@Param("pageSize")int pageSize);
+
 }

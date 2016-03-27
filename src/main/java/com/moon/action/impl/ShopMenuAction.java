@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class ShopMenuAction extends Action {
 			HttpServletRequest requeset, HttpServletResponse response) {
 		PageResult result = new PageResult();
 		try {
-			List<ShopMenuDto> list = shopMenuService.query(shopId, offset, AppConstant.PAGE);
+			List<ShopMenuDto> list = shopMenuService.queryByShopId(shopId, offset, AppConstant.PAGE);
 			result.setObject(list);
 			result.setPageSize(AppConstant.PAGE);
 			result.setIsSuccess(true);
@@ -67,7 +68,7 @@ public class ShopMenuAction extends Action {
 	@RequestMapping("insert")
 	@ResponseBody
 	public PageResult insert(@RequestParam(value = "img", required = false) MultipartFile file,
-			
+			@RequestParam("name") String name, @RequestParam("intro") String intro,
 			HttpServletRequest requeset, HttpServletResponse response) {
 		PageResult result = new PageResult();
 		try {
@@ -109,5 +110,26 @@ public class ShopMenuAction extends Action {
 			result.setIsSuccess(false);
 			return result;
 		}
+	}
+
+	@RequestMapping("queryByShopName")
+	public ModelAndView queryShopName(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView();
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("exception detail: {}", e.getMessage());
+		}
+		return view;
+	}
+	
+	@RequestMapping("queryByContent")
+	public ModelAndView queryShopName(@RequestParam("content")String content,HttpServletRequest request,HttpServletResponse response){
+		ModelAndView view=new ModelAndView("shop/index");
+		if(StringUtils.isNotBlank(content)){
+			
+		}
+		return view;
 	}
 }

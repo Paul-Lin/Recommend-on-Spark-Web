@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.esotericsoftware.minlog.Log;
 import com.moon.action.Action;
 import com.moon.entity.dto.RecommendMenuDto;
 import com.moon.entity.impl.PageResult;
+import com.moon.service.impl.RecommendService;
 import com.moon.service.impl.ShopMenuImageService;
 @Controller
 @RequestMapping("common/recommend")
@@ -21,6 +23,8 @@ public class RecommendAction extends Action {
 	private Logger log=LoggerFactory.getLogger(RecommendAction.class);
 	@Autowired
 	private ShopMenuImageService shopMenuImageService;
+	@Autowired
+	private RecommendService recommendService;
 	@RequestMapping("refresh-recommend-shop-menu")
 	@ResponseBody
 	public PageResult refresh(@RequestParam(value="customerId",defaultValue="0")long customerId){
@@ -31,8 +35,17 @@ public class RecommendAction extends Action {
 	@RequestMapping("index")
 	@ResponseBody
 	public PageResult index(){
-		PageResult result=new PageResult();
-		return result;
+		PageResult pageResult=new PageResult();
+		try{
+			recommendService.recommend();
+			pageResult.setIsSuccess(true);
+			return pageResult;
+		}catch(Exception e){
+			e.printStackTrace();
+			Log.error(e.getMessage());
+			pageResult.setIsSuccess(false);
+			return pageResult;
+		}
 	}
 	
 	@RequestMapping("recommend-shop-menu")
@@ -51,4 +64,25 @@ public class RecommendAction extends Action {
 			return result;
 		}
 	}
+	
+	@RequestMapping("recommend-to-customer")
+	@ResponseBody
+	public PageResult recommendShopMenu(@RequestParam(value="isRecommend")boolean isRecommend){
+		PageResult result=new PageResult();
+		try{
+			if(isRecommend){
+				recommendService.batchInsertRecommend();
+				result.setIsSuccess(true);
+			}else{
+				result.setIsSuccess(false);
+			}
+			return result;
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("exception detail: {}",e.getMessage());
+			result.setIsSuccess(false);
+			return result;
+		}
+	}
+	
 }

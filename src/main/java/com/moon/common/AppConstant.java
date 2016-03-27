@@ -8,4 +8,6 @@ public class AppConstant {
     public static final String SHOP="SHOP";
     public static final String PASSWORD="pass";
     public static final String CUSTOMER="CUSTOMER";
+    public static final String SHOP_MENU_DTO="shopMenuDto";
+    
 }

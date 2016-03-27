@@ -22,9 +22,9 @@ import com.moon.entity.dto.ShopDto;
 import com.moon.entity.impl.Customer;
 import com.moon.entity.impl.PageResult;
 import com.moon.entity.impl.Shop;
-import com.moon.enums.ShopMenu;
 import com.moon.enums.ShopStatus;
 import com.moon.service.impl.CustomerService;
+import com.moon.service.impl.RecommendService;
 import com.moon.service.impl.ShopMenuImageService;
 import com.moon.service.impl.ShopMenuService;
 import com.moon.service.impl.ShopService;
@@ -44,6 +44,7 @@ public class CommonAction extends Action {
 	private ShopMenuImageService shopMenuImageService;
 	@Autowired
 	private ShopMenuService shopMenuService;
+	
 	private Shop shop;
 
 	@RequestMapping("/index")
@@ -69,22 +70,6 @@ public class CommonAction extends Action {
 		return view;
 	}
 	
-	@RequestMapping(value="shop/do-login")
-	public ModelAndView doLogin(HttpServletRequest request,@RequestParam("nickname")String nickname,@RequestParam("password")String password){
-		ModelAndView view=null;
-		if(StringUtils.isNotBlank(nickname)&&StringUtils.isNotBlank(password)){
-			if(shopService.login(nickname, password)){
-				view=new ModelAndView("shop/index");
-				view.addObject("menu", ShopMenu.MENU_MANAGE);
-				view.addObject("title","菜单管理");
-			}
-			else
-				view=new ModelAndView("shop/login");
-		}else{
-			view=new ModelAndView("shop/login");
-		}
-		return view;
-	}
 	@RequestMapping("/customer/login")
 	public ModelAndView login(@RequestParam("name") String nickname, @RequestParam("pass") String pass,
 			HttpServletRequest request) {
@@ -149,7 +134,7 @@ public class CommonAction extends Action {
 		try{
 			ShopDto dto=new ShopDto();
 			dto.setShop(shopService.queryByShopId(shopId));
-			dto.setList(shopMenuService.query(shopId, offset, AppConstant.PAGE));
+			dto.setList(shopMenuService.queryByShopId(shopId, offset, AppConstant.PAGE));
 		}catch(Exception e){
 			e.printStackTrace();
 			Log.error("exception detail: {}",e.getMessage());

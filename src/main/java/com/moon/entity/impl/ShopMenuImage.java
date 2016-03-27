@@ -30,7 +30,7 @@ public class ShopMenuImage implements MoonEntity,RetrievedCondition{
 	public static class BuildShopMenuImage{
 		public static ShopMenuImage build(long ShopMenuId){
 			ShopMenuImage image=new ShopMenuImage();
-			image.setId(ShopMenuId);
+			image.setShopMenuId(ShopMenuId);
 			return image;
 		}
 	}

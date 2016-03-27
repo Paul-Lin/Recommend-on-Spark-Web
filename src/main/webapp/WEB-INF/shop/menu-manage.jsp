@@ -14,6 +14,9 @@
 <meta charset="utf-8">
 <meta name="keywords" content="美食社交,美食商店,Moon Plan,收藏,精选" />
 <meta name="description" content="Moon Plan 是一款专注于美食发现,分享,购买的软件产品." />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
 <title>${title}</title>
 <link
 	href="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/img/index.png"
@@ -38,6 +41,7 @@
 	href="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/css/fileinput.min.css"
 	type="text/css" rel="stylesheet" />
 </head>
+<input type="hidden" id="host" value="<%=host%>" />
 <style>
 .menu-insert {
 	width: 600px;
@@ -58,11 +62,55 @@
 }
 </style>
 <body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="<%=host%>"> <img alt="Brand"
+					src="<%=host + "/img/index.png"%>" width="50px" height="50px"
+					style="margin: -10px;">
+				</a>
+			</div>
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="<%=host%>">Moon Plan</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="<%=host%>/shop/index.action?menu=6">菜式 <span
+							class="sr-only">(current)</span></a></li>
+					<li><a href="<%=host%>/shop/index.action?menu=5">账单 </a></li>
+					<li><a href="<%=host%>/shop/index.action?menu=3">图片墙</a></li>
+					<li><a href="<%=host%>/shop/index.action?menu=2">评论墙</a></li>
+					<li><a href="<%=host%>/shop/index.action?menu=4">公告</a></li>
+					<li><a href="<%=host%>/shop/index.action?menu=7">设置 <span
+							class="sr-only">(current)</span></a></li>
+				</ul>
+				<form class="navbar-form navbar-right" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="美食">
+					</div>
+					<button type="submit" class="btn btn-default">奔月</button>
+				</form>
+
+			</div>
+		</div>
+	</nav>
 	<div class="container">
 		<div>
 			<button type="button" class="btn btn-info" data-toggle="modal"
 				data-target="#myModal">增加菜单</button>
-			<form class="form-horizontal" style="float: right;">
+			<form action="<%=host + "/shopmenu/list.action"%>"
+				class="form-horizontal" style="float: right;">
 				<div class="form-group">
 					<div class="col-sm-10 menu-search">
 						<input type="text" class="form-control" id="inputMenuSearch"
@@ -73,67 +121,23 @@
 				</div>
 			</form>
 		</div>
-		<div class="menu-list">
-			<div class="form-group">
-				<img src="<%=host + "/img/jay.jpg"%>" class="img-thumbnail"
-					style="height: 140px;"></img>
-				<h2>周杰伦</h2>
+		<c:forEach var="shopmenu" items="${shopMenuDto}">
+			<div class="menu-list">
+				<input type="text" style="display: none;"></input>
+				<div class="form-group">
+					<img src="${shopmenu.illustration}" class="img-thumbnail"
+						style="height: 140px;"></img>
+					<h2>${shopmenu.name}</h2>
+				</div>
+				<p>${shopmenu.intro}</p>
+				<div style="float: right;">
+					<button type="button" class="btn btn-info" data-toggle="modal"
+						data-target="#updateModal" onclick="queryModal(${shopmenu.id})">修改</button>
+					<button type="button" class="btn btn-info" data-toggle="modal"
+						data-target="#deleteModal" onclick="queryModal(${shopmenu.id })">删除</button>
+				</div>
 			</div>
-			<p>周杰伦（Jay
-				Chou），1979年1月18日出生在台湾新北市，身兼华语男歌手、词曲创作人、制作人、导演、编剧、监制等[1] 。
-				2000年发行首张专辑《Jay》出道，2002年在中国、新加坡、马来西亚、美国等地举办首场世界巡回演唱会。2003年登美国《时代周刊》封面人物[2-3]
-				。曾四次获得世界音乐大奖中国最畅销艺人奖[4-5]
-				，并凭借专辑《Jay》《范特西》《叶惠美》《跨时代》四次获金曲奖最佳国语专辑奖，又通过《魔杰座》《跨时代》两度获得金曲奖最佳男歌手奖。2014年、2015年两度获得QQ音乐年度盛典最佳全能艺人奖[6-7]
-				。2015年获得全球华语榜中榜亚洲最受欢迎全能艺人奖[8] ；同年担任《中国好声音第四季》导师[9] 。
-				2005年以电影《头文字D》获台湾电影金马奖及香港电影金像奖最佳新人奖</p>
-			<div style="float: right;">
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#updateModal">修改</button>
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#deleteModal">删除</button>
-			</div>
-		</div>
-		<!-- list -->
-		<div class="menu-list">
-			<div class="form-group">
-				<img src="<%=host + "/img/jay.jpg"%>" class="img-thumbnail"
-					style="height: 140px;"></img>
-				<h2>周杰伦</h2>
-			</div>
-			<p>周杰伦（Jay
-				Chou），1979年1月18日出生在台湾新北市，身兼华语男歌手、词曲创作人、制作人、导演、编剧、监制等[1] 。
-				2000年发行首张专辑《Jay》出道，2002年在中国、新加坡、马来西亚、美国等地举办首场世界巡回演唱会。2003年登美国《时代周刊》封面人物[2-3]
-				。曾四次获得世界音乐大奖中国最畅销艺人奖[4-5]
-				，并凭借专辑《Jay》《范特西》《叶惠美》《跨时代》四次获金曲奖最佳国语专辑奖，又通过《魔杰座》《跨时代》两度获得金曲奖最佳男歌手奖。2014年、2015年两度获得QQ音乐年度盛典最佳全能艺人奖[6-7]
-				。2015年获得全球华语榜中榜亚洲最受欢迎全能艺人奖[8] ；同年担任《中国好声音第四季》导师[9] 。
-				2005年以电影《头文字D》获台湾电影金马奖及香港电影金像奖最佳新人奖</p>
-			<div style="float: right;">
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#updateModal">修改</button>
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#deleteModal">删除</button>
-			</div>
-		</div>
-		<div class="menu-list">
-			<div class="form-group">
-				<img src="<%=host + "/img/jay.jpg"%>" class="img-thumbnail"
-					style="height: 140px;"></img>
-				<h2>周杰伦</h2>
-			</div>
-			<p>周杰伦（Jay
-				Chou），1979年1月18日出生在台湾新北市，身兼华语男歌手、词曲创作人、制作人、导演、编剧、监制等[1] 。
-				2000年发行首张专辑《Jay》出道，2002年在中国、新加坡、马来西亚、美国等地举办首场世界巡回演唱会。2003年登美国《时代周刊》封面人物[2-3]
-				。曾四次获得世界音乐大奖中国最畅销艺人奖[4-5]
-				，并凭借专辑《Jay》《范特西》《叶惠美》《跨时代》四次获金曲奖最佳国语专辑奖，又通过《魔杰座》《跨时代》两度获得金曲奖最佳男歌手奖。2014年、2015年两度获得QQ音乐年度盛典最佳全能艺人奖[6-7]
-				。2015年获得全球华语榜中榜亚洲最受欢迎全能艺人奖[8] ；同年担任《中国好声音第四季》导师[9] 。
-				2005年以电影《头文字D》获台湾电影金马奖及香港电影金像奖最佳新人奖</p>
-			<div style="float: right;">
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#updateModal">修改</button>
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#deleteModal">删除</button>
-			</div>
-		</div>
+		</c:forEach>
 	</div>
 </body>
 <!-- insert modal -->
@@ -146,8 +150,9 @@
 					aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">增加菜单</h4>
 			</div>
-			<div class="modal-body">
-				<form action="#" method="post" enctype="multipart/form-data">
+			<form action="<%=host%>/shop/menu-insert.action" method="post"
+				enctype="multipart/form-data">
+				<div class="modal-body">
 					<div class="form-group">
 						<label for="inputMenuName">菜单名称</label> <input type="text"
 							class="form-control" name="inputMenuName" id="inputMenuName"
@@ -160,15 +165,15 @@
 					</div>
 					<div class="form-group">
 						<label for="inputFileUpload">图片上传</label> <input type="file"
-							name="">
+							name="file">
 					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-info" data-dismiss="modal">关闭
-				</button>
-				<input type="submit" class="btn btn-info btn-insert" value="增加菜单" />
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" data-dismiss="modal">关闭
+					</button>
+					<input type="submit" class="btn btn-info btn-insert" value="增加菜单" />
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -183,16 +188,18 @@
 				<h4 class="modal-title" id="myModalLabel">删除菜单</h4>
 			</div>
 			<div class="modal-body">
+				<input type="text" id="deleteModalId" style="display: none;"></input>
 				<p>
 					你确定要删除菜单名为
-					<mark>周杰伦</mark>
+					<mark id="deleteModalMark"></mark>
 					吗？
 				</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-info" data-dismiss="modal">关闭
 				</button>
-				<input type="submit" class="btn btn-info btn-insert" value="确定" />
+				<input type="submit" class="btn btn-info btn-insert" value="确定"
+					onclick="deleteModal()" />
 			</div>
 		</div>
 	</div>
@@ -209,26 +216,74 @@
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
+					<input type="text" id="updateModalId" style="display: none;"></input>
+					<input type="text" id="updateModalShopId" style="display: none;"></input>
 					<label for="updateMenu">菜单名称</label> <input type="text"
-						class="form-control" value="周杰伦"></input>
+						id="updateModalName" class="form-control"></input>
 				</div>
 				<div class="form-group">
 					<label for="updateIntro">菜单介绍</label>
-					<textarea class="form-control" rows="3" id="updateIntro">周杰伦（JayChou），1979年1月18日出生在台湾新北市，身兼华语男歌手、词曲创作人、制作人、导演、编剧、监制等[1] 。
-				2000年发行首张专辑《Jay》出道，2002年在中国、新加坡、马来西亚、美国等地举办首场世界巡回演唱会。2003年登美国《时代周刊》封面人物[2-3]
-				。曾四次获得世界音乐大奖中国最畅销艺人奖[4-5]，并凭借专辑《Jay》《范特西》《叶惠美》《跨时代》四次获金曲奖最佳国语专辑奖，又通过《魔杰座》《跨时代》两度获得金曲奖最佳男歌手奖。2014年、2015年两度获得QQ音乐年度盛典最佳全能艺人奖[6-7]
-				。2015年获得全球华语榜中榜亚洲最受欢迎全能艺人奖[8] ；同年担任《中国好声音第四季》导师[9] 。
-				2005年以电影《头文字D》获台湾电影金马奖及香港电影金像奖最佳新人奖</textarea>
+					<textarea class="form-control" rows="3" id="updateIntro"></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-info" data-dismiss="modal">关闭
 				</button>
-				<input type="submit" class="btn btn-info btn-insert" value="修改" />
+				<input type="submit" class="btn btn-info btn-insert" value="修改"
+					onclick="updateModal()" />
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-	
+	function queryModal(menuId){
+		$.ajax({
+			type:'post',
+			url:$('#host').val()+'/shop/menu-query.action',
+			data:{
+				id:parseInt(menuId),
+			},
+			success:function(data){
+				$('#updateModalName').val(data.object.name);
+				$('#updateIntro').val(data.object.intro);
+				$('#updateModalId').val(data.object.id);
+				$('#updateModalShopId').val(data.object.shopId);
+				$('#deleteModalId').val(data.object.id);
+				$('#deleteModalMark').html(data.object.name);
+			}
+		});
+	}
+	function updateModal(){
+		$.ajax({
+			type:'post',
+			url:$('#host').val()+'/shop/menu-update.action',
+			data:{
+				shopId:$('#updateModalShopId').val(),
+				id:$('#updateModalId').val(),
+				name:$('#updateModalName').val(),
+				intro:$('#updateIntro').val()
+			},
+			success:function(data){
+				if(data.success){
+					$('#updateModal').modal('hide');
+					window.location=$('#host').val()+'/shop/menu-manage.action';
+				}
+			}
+		});
+	}
+	function deleteModal(){
+		$.ajax({
+			type:'post',
+			url:$('#host').val()+'/shop/menu-delete.action',
+			data:{
+				id:$('#deleteModalId').val(),
+			},
+			success:function(data){
+				if(data.success){
+					$('#updateModal').modal('hide');
+					window.location=$('#host').val()+'/shop/menu-manage.action';
+				}
+			}
+		});
+	}
 </script>
