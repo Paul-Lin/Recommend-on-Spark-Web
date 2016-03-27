@@ -24,7 +24,6 @@ import com.moon.entity.impl.PageResult;
 import com.moon.entity.impl.Shop;
 import com.moon.enums.ShopStatus;
 import com.moon.service.impl.CustomerService;
-import com.moon.service.impl.RecommendService;
 import com.moon.service.impl.ShopMenuImageService;
 import com.moon.service.impl.ShopMenuService;
 import com.moon.service.impl.ShopService;
