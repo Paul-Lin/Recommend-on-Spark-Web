@@ -53,6 +53,7 @@ public class RecommendAction extends Action {
 	public PageResult recommendShopMenu(@RequestParam(value="customerId",defaultValue="0")long customerId){
 		PageResult result=new PageResult();
 		try{
+			recommendService.recommend();
 			List<RecommendMenuDto> list=shopMenuImageService.recommendShopMenu(customerId);
 			result.setObject(list);
 			result.setIsSuccess(true);
