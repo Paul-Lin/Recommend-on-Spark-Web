@@ -1,2 +1,2 @@
-### Welcom to Recommend Web App base on Spark project
+### Welcom to Recommend Web App based on Spark project
 
