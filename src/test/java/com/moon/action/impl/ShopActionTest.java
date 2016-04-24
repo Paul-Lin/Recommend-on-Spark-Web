@@ -1,8 +1,8 @@
 package com.moon.action.impl;
 
-import com.moon.action.ActionTest;
-import com.moon.entity.impl.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.moon.action.ActionTest;
 
 /**
  * Created by Administrator on 2015/12/12.

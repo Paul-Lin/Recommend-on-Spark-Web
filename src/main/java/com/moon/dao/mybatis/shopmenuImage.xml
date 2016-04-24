@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.dao.mapper.ShopMenuImageMapper">
+	<resultMap type="com.moon.entity.impl.ShopMenuImage" id="shopMenuImage">
+		<result column="shop_menu_image_pk_id" property="id"/>
+		<result column="shop_menu_image_path" property="path"/>
+		<result column="shop_menu_image_fk_shop_menu_id" property="shopMenuId"/>
+	</resultMap>
+</mapper>
