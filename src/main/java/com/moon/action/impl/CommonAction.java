@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.esotericsoftware.minlog.Log;
 import com.moon.action.Action;
 import com.moon.common.AppConstant;
 import com.moon.entity.dto.RecommendMenuDto;
@@ -35,6 +36,7 @@ import com.moon.service.impl.ShopService;
 @RequestMapping(value = "common")
 public class CommonAction extends Action {
 	private static final long serialVersionUID = -2325688609806086821L;
+	private static final Logger LOG=LoggerFactory.getLogger(CommonAction.class);
 	@Autowired
 	private ShopService shopService;
 	@Autowired
@@ -136,7 +138,7 @@ public class CommonAction extends Action {
 			dto.setList(shopMenuService.queryByShopId(shopId, offset, AppConstant.PAGE));
 		}catch(Exception e){
 			e.printStackTrace();
-			Log.error("exception detail: {}",e.getMessage());
+			LOG.error("exception detail: {}",e.getMessage());
 		}
 		view.addObject("customer",request.getSession().getAttribute(AppConstant.CUSTOMER));
 		return view;

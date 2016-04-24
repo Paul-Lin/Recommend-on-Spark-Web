@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.esotericsoftware.minlog.Log;
 import com.moon.action.Action;
 import com.moon.entity.dto.RecommendMenuDto;
 import com.moon.entity.impl.PageResult;
@@ -20,7 +19,7 @@ import com.moon.service.impl.ShopMenuImageService;
 @RequestMapping("common/recommend")
 public class RecommendAction extends Action {
 	private static final long serialVersionUID = 3894612842983109403L;
-	private Logger log=LoggerFactory.getLogger(RecommendAction.class);
+	private static final Logger LOG=LoggerFactory.getLogger(RecommendAction.class);
 	@Autowired
 	private ShopMenuImageService shopMenuImageService;
 	@Autowired
@@ -42,7 +41,7 @@ public class RecommendAction extends Action {
 			return pageResult;
 		}catch(Exception e){
 			e.printStackTrace();
-			Log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			pageResult.setIsSuccess(false);
 			return pageResult;
 		}
@@ -60,7 +59,7 @@ public class RecommendAction extends Action {
 			return result;
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("exception detail: {}",e.getMessage());
+			LOG.error("exception detail: {}",e.getMessage());
 			result.setIsSuccess(false);
 			return result;
 		}
@@ -80,7 +79,7 @@ public class RecommendAction extends Action {
 			return result;
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("exception detail: {}",e.getMessage());
+			LOG.error("exception detail: {}",e.getMessage());
 			result.setIsSuccess(false);
 			return result;
 		}

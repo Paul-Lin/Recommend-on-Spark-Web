@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.esotericsoftware.minlog.Log;
 import com.moon.action.Action;
 import com.moon.common.AppConstant;
 import com.moon.entity.impl.Customer;
@@ -26,6 +27,7 @@ import com.moon.service.impl.CustomerService;
 @RequestMapping("user")
 public class CustomerAction extends Action {
 	private static final long serialVersionUID = 3172032091259870486L;
+	private static final Logger LOG=LoggerFactory.getLogger(CustomerAction.class);
 	@Autowired
 	private CustomerService customerService;
 
@@ -54,7 +56,7 @@ public class CustomerAction extends Action {
 			return result;
 		}catch(Exception e){
 			e.printStackTrace();
-			Log.error("exception detail: {}",e.getMessage());
+			LOG.error("exception detail: {}",e.getMessage());
 			result.setIsSuccess(false);
 			return result;
 		}
@@ -139,7 +141,7 @@ public class CustomerAction extends Action {
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.error("exception detail: {}", e.getMessage());
+			LOG.error("exception detail: {}", e.getMessage());
 			result.setIsSuccess(false);
 			return result;
 		}
