@@ -8,4 +8,8 @@ public class PropUtilsTest {
 		System.out.println(PropUtils.getRecomendValue("sparkJar"));
 	}
 
+	@Test
+	public void testGetJedisConfiguration(){
+		System.out.println(PropUtils.getRecomendValue("jedisHost")+" : "+PropUtils.getRecomendValue("jedisPort"));
+	}
 }
