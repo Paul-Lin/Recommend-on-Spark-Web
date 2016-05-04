@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import com.moon.common.util.PropUtils;
 import com.moon.dao.impl.RecommendDao;
+import com.moon.dao.impl.ShopMenuDao;
+import com.moon.dao.impl.UserEventJedisDao;
 import com.moon.entity.impl.RecommendMenu;
+import com.moon.entity.impl.ShopMenu;
 import com.moon.service.MoonService;
 
 @Service("recommendService")
@@ -29,6 +33,10 @@ public class RecommendService implements MoonService {
 	private ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 	@Autowired
 	private RecommendDao recommendDao;
+	@Autowired
+	private UserEventJedisDao userEventJedisDao;
+	@Autowired
+	private ShopMenuDao shopMenuDao;
 	private InputStream input = null;
 	private BufferedReader read;
 
@@ -41,7 +49,23 @@ public class RecommendService implements MoonService {
 			throw new RuntimeException("It can not query recommend menus in recommendService.");
 		}
 	}
-	
+	public List<RecommendMenu> queryByRedis(long customerId){
+		List<RecommendMenu> list=new ArrayList<RecommendMenu>();
+		try{
+			userEventJedisDao.getRecommendProduct(customerId).forEach((x,y)->{
+				RecommendMenu menu=new RecommendMenu();
+				menu.setShopMenuId(Long.parseLong(x));
+				menu.setUserId(customerId);
+				menu.setRating(Double.parseDouble(y));
+				list.add(menu);
+			});
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("exception detail: ",e.getCause());
+		}
+		return list;
+
+	}
 	public void recommend() {
 		cachedThreadPool.execute(new Runnable() {
 			@Override

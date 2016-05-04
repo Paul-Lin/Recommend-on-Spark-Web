@@ -23,6 +23,7 @@ import com.moon.entity.dto.ShopMenuDto;
 import com.moon.entity.impl.Customer;
 import com.moon.entity.impl.PageResult;
 import com.moon.entity.impl.ShopMenu;
+import com.moon.kafka.MoonUserEventProducer;
 import com.moon.service.impl.ShopMenuService;
 
 @Controller
@@ -131,5 +132,16 @@ public class ShopMenuAction extends Action {
 			
 		}
 		return view;
+	}
+	public PageResult viewShopMenu(@RequestParam("customerId")long customerId,@RequestParam("menuId")long menuId,@RequestParam("count")int count){
+		PageResult result=new PageResult();
+		try{
+			MoonUserEventProducer producer=new MoonUserEventProducer();
+			producer.sendMenuViewEvent(customerId, menuId, count);
+		}catch(Exception e){
+			e.printStackTrace();
+			result.setIsSuccess(false);
+		}
+		return result;
 	}
 }

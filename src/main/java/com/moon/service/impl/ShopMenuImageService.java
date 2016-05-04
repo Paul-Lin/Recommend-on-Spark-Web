@@ -30,7 +30,7 @@ public class ShopMenuImageService implements MoonService{
 	public List<RecommendMenuDto> recommendShopMenu(long customerId){
 		final List<RecommendMenuDto> list=new ArrayList<RecommendMenuDto>();
 		try{
-			List<RecommendMenu> recommendMenu=recommendService.query(customerId);
+			List<RecommendMenu> recommendMenu=recommendService.queryByRedis(customerId);
 			recommendMenu.stream().forEach(x->{
 				final RecommendMenuDto dto=new RecommendMenuDto();
 				dto.setId(x.getShopMenuId());

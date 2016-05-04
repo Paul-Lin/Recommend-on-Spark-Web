@@ -7,6 +7,7 @@ public class RecommendMenu extends Entity{
 	private long id;
 	private long userId;
 	private long shopMenuId;
+	private double rating;
 	public long getId() {
 		return id;
 	}
@@ -24,6 +25,12 @@ public class RecommendMenu extends Entity{
 	}
 	public void setShopMenuId(long shopMenuId) {
 		this.shopMenuId = shopMenuId;
+	}
+	public double getRating() {
+		return rating;
+	}
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 	
 }
